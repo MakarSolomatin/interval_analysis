@@ -1,0 +1,96 @@
+\documentclass[14pt,a4paper,article]{article}
+\usepackage[a4paper, mag=1000, left=2.5cm, right=1cm, top=2cm, bottom=2cm, headsep=0.7cm, footskip=1cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel} %[english,russian]
+\usepackage{indentfirst}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks]{hyperref}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\begin{document}
+
+% Title page 
+\begin{titlepage}
+\newpage
+
+\begin{center}
+САНКТ-ПЕТЕРБУРГСКИЙ ПОЛИТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМЕНИ ПЕТРА ВЕЛИКОГО \\
+\vspace{1em}
+\largeВысшая школа прикладной математики и механики \\
+\large Кафедра прикладной математики и информатики \\ 
+\end{center}
+
+\vspace{8em}
+
+
+\begin{center}
+\textsc{\textbf{Лабораторная работа #1}}\\
+\end{center}
+
+\vspace{6em}
+
+
+
+\newbox{\lbox}
+\savebox{\lbox}{\hbox{}}
+\newlength{\maxl}
+\setlength{\maxl}{\wd\lbox}
+\hfill\parbox{11cm}{
+\hspace*{5cm}\hspace*{-5cm}Студент:\hfill\hbox to\maxl{Соломатин Макар Александрович\hfill}\\
+\hspace*{5cm}\hspace*{-5cm}Преподаватель:\hfill\hbox to\maxl{Александр Николаевич Баженов}\\
+\\
+\hspace*{5cm}\hspace*{-5cm}Группа: \hfill\hbox to\maxl{3630102/70201}\\
+}
+
+
+\vspace{\fill}
+
+\begin{center}
+Санкт-Петербург \\2020
+\end{center}
+
+\end{titlepage}
+
+\newpage
+
+\chapter{Постановка задачи}
+\textbf{Задача 1}. Имеется интервальная матрица 
+\begin{equation*}
+    A_{m,n} = 
+	\begin{pmatrix}
+	    a_{1,1} & a_{1,2} & \cdots & a_{1,n} \\
+	    a_{2,1} & a_{2,2} & \cdots & a_{2,n} \\
+	    \vdots  & \vdots  & \ddots & \vdots  \\
+	    a_{m,1} & a_{m,2} & \cdots & a_{m,n} 
+	\end{pmatrix}
+\end{equation*}
+
+\end{document}
