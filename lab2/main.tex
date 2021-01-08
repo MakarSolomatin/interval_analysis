@@ -1,0 +1,180 @@
+\documentclass[14pt,a4paper,article]{ncc}
+\usepackage[a4paper, mag=1000, left=2.5cm, right=1cm, top=2cm, bottom=2cm, headsep=0.7cm, footskip=1cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel} %[english,russian]
+\usepackage{indentfirst}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[pdftex,unicode=true,colorlinks,filecolor=black,citecolor=black,linkcolor=black]{hyperref}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LE,RO]{\thepage}
+\fancyfoot{} 
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        САНКТ-ПЕТЕРБУРГСКИЙ ПОЛИТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМЕНИ ПЕТРА ВЕЛИКОГО \\
+        \vspace{1em}
+        \large Высшая школа прикладной математики и механики \\
+        \large Кафедра прикладной математики и информатики \\ 
+    \end{center}
+    \vspace{8em}
+    \begin{center}
+        \textsc{\textbf{Лабораторная работа #2}}\\
+    \end{center}
+    \vspace{14em}
+    \newbox{\lbox}
+    \savebox{\lbox}{\hbox{Соломатин Макар Александр}}
+    \newlength{\maxl}
+    \setlength{\maxl}{\wd\lbox}
+    \hfill\parbox{11cm}{
+    \hspace*{5cm}\hspace*{-5cm}Студент:\hfill\hbox to\maxl{Макар Александрович Соломатин\hfill}\\
+    \hspace*{5cm}\hspace*{-5cm}Преподаватель:\hfill\hbox to\maxl{Александр Николаевич Баженов}\\
+    \\
+    \hspace*{5cm}\hspace*{-5cm}Группа: \hfill\hbox to\maxl{3630102/70201}\\
+    }
+    \vspace{\fill}
+    \begin{center}
+        Санкт-Петербург \\2020
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Постановка задачи}
+Использовать функцию $\text{globopt}$ для демонстрации интервальной глобальной оптимизации.
+Она возвращает значение глобального экстремума $Z$ и рабочий список $\text{WorkList}$.
+
+$$ \text{function } [Z, WorkList] = \text{globopt0}(X) $$
+
+\subsection{Задача 1}
+Построить рабочий список и график сужения интервала для функции Розенбока 4:
+$$ f_R = 100 \cdot (x_1^2 - x_2)^2 - (x_1 - 1)^2$$.
+Брус, на котором ищется решение $\textbf{X} = [-30, 30] \times [-30, 30]$
+
+\subsection{Задача 2}
+Применить метод к функции Матьяса:
+$$ f = 0.26(x^2 + y^2) - 0.48x y $$
+Исследовать сходимость метода.
+
+\section{Теория}
+\subsection{Алгоритм globopt}
+Алгоритм для глобальной минимизации функции GlobOpt оперирует с рабочим списком $L$, в котором будут храниться все
+брусы, получающиеся в результате дробления исходного бруса области определения на более мелкие подбрусы. Одновременно с самими
+подбрусами будем хранить в рабочем списке и нижние оценки областей значений целевой функции по этим подбрусам, так что
+элементами списка $L$ будут записи-пары вида
+$$L:\; (\textbf{Y}, y)\text{, где} \textbf{Y} \subseteq \textbf{X},\; y = \textbf{f(Y)}$$
+
+Первоначально в рабочий список помещается одна запись
+$$(\textbf{X}, \textbf{f(X)})$$
+и далее каждый шаг алгоритма состоит в извлечении из этого списка
+бруса, который обеспечивает рекордную (т. е. наименьшую) на данный
+момент оценку минимума снизу, его дроблении на более мелкие
+подбрусы, оценивании на них целевой функции, занесении результатов
+обратно в рабочий список.
+
+На $k$-ом шаге алгоритма рабочий список $L$ состоит из $k$ штук
+записей-пар вида $(\textbf{Y}^{i,k},y^{i,k}),\; i=1,2\cdots,k$, и для удобства обработки
+мы будем считать их упорядоченными по возрастанию значений
+второго поля, т. е.
+$$L = \{(\textbf{Y}^{1,k}, y^{1,k}),\cdots,(\textbf{Y}^{i,k},y^{i,k})\}$$
+где 
+$$\textbf{Y}^{i,k} \subseteq \textbf{X}, \;y^{i,k} = \underline{\textbf{f}(\textbf{Y}^{i,k})},\; y^{i,k} \leq y^{j,k}, \;\text{при } i < j$$
+
+Особую роль в исполнении алгоритма играет первая запись списка $L$ ,
+которую называют ведущей записью. Соответственно, брус $\textbf{Y}$ будет
+называться ведущим брусом, а оценка $y$ — ведущей оценкой для
+данного шага алгоритма. Ведущая оценка является наилучшей
+текущей оценкой минимума целевой функции снизу, достигнутой
+алгоритмом к данному шагу.
+
+\subsection{Функции для оптимизации}
+\begin{enumerate}
+    \item Функция Розенброка 4:
+    $$f_R = 100(x_1^2 -x_2)^2 - (x_1 - 1)^2$$
+    График функции имеет тип седло. Минимум функции достигается при значении аргумента $x = (1,1)$ и равен $0$.
+    \begin{figure}[h]
+        \center{\includegraphics[scale=0.5]{rosenbrok4.png}}
+        \caption{Розенброк 4}
+        \label{fig:image}
+    \end{figure}
+
+    \item Функция сферы:
+    $$f_S = x_1^2 + x_2^2$$
+    Минимум функции достигается при значении аргумента $x = (0,0)$ и равен $0$.
+    \begin{figure}[H]
+        \center{\includegraphics[scale=0.25]{sphere.png}}
+        \caption{Функция сферы}
+        \label{fig:image}
+    \end{figure}
+\end{enumerate}
+
+\section{Реализация}
+Задача решена в среде GNU Octave с использованием пакета $interval$.
+Код программы приведен в Приложении 1.
+
+\section{Результаты}
+\subsection{Функция Розенброка 4}
+Полученные результаты для функции Розенбрка 4 оформлены в виде графиков:
+\begin{enumerate}
+    \item График \textit{сходимости} - график зависимости расстояния до истинного минимум от номера итерации.
+    \item \textit{Траектория центров брусов} - центры ведущих брусов, соединенные прямыми.
+    \item \textit{Сужение брусов} - график зависимости диаметра ведущего бруса от номера итерации.
+\end{enumerate}
+
+    \begin{figure}[H]
+        \center{\includegraphics[scale=0.7]{rosenbrok_conv.png}}
+        \caption{Розенброк 4. Сходимость.}
+        \label{fig:image}
+    \end{figure}
+    \begin{figure}[H]
+        \center{\includegraphics[width=100mm,scale=0.4]{rosenbrok_traj.png}}
+        \caption{Розенброк 4. Траектория цетров брусов.}
+        \label{fig:image}
+    \end{figure}  
+    \begin{figure}[H]
+        \center{\includegraphics[scale=0.5]{rosenbrok_contr.png}}
+        \caption{Розенброк 4. Диаметры брусов.}
+        \label{fig:image}
+    \end{figure} 
+\subsection{Функция сферы}
+Аналогичные графики для функции сферы:
+    \begin{figure}[H]
+        \center{\includegraphics[scale=0.7]{simple_conf.png}}
+        \caption{Функция сферы. Сходимость.}
+        \label{fig:image}
+    \end{figure}
+    \begin{figure}[H]
+        \center{\includegraphics[width=100mm,scale=0.4]{simple_traj.png}}
+        \caption{Функция сферы. Траектория цетров брусов.}
+        \label{fig:image}
+    \end{figure}  
+    \begin{figure}[H]
+        \center{\includegraphics[scale=0.5]{simple_contr.png}}
+        \caption{Функция сферы. Диаметры брусов.}
+        \label{fig:image}
+    \end{figure} 
+
+\section{Вывод}
+\subsection{Задача 1}
+\subsection{Задача 2}
+
+\section{Приложение}
+\begin{enumerate}
+    \item Репозиторий с исходным кодом \\ \url{https://github.com/MakarSolomatin/interval_analysis}
+\end{enumerate}
+
+\begin{thebibliography}{9}
+    \bibitem{lectures} А. Н. Баженов. \textit{Лекции по интервальному анализу}.
+    \bibitem{wiki} \\ \url{https://ru.wikipedia.org/wiki/%D0%A2%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D1%8B%D0%B5_%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8_%D0%B4%D0%BB%D1%8F_%D0%BE%D0%BF%D1%82%D0%B8%D0%BC%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8}
+\end{thebibliography}
+
+\end{document}
