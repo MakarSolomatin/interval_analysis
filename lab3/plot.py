@@ -10,10 +10,10 @@ A = [[Kaucher(4, 6), Kaucher(5, 7)],
 
 b = [[Kaucher(2, 4.4)], [Kaucher(1, 2.7)], [Kaucher(3.4, 5.6)]]
 
-infA = np.array([[4, 5], [2, 1], [6, 3]])
-supA = np.array([[6, 7], [4, 3], [8, 5]])
-infb = np.array([[2], [1], [3.4]])
-supb = np.array([[4.4], [2.7], [5.6]])
+infA = np.array([[3, 6], [2, 1], [5, 4]])
+supA = np.array([[8, 9], [4, 5], [9, 7]])
+infb = np.array([[1.5], [0.8], [3]])
+supb = np.array([[5], [3], [6]])
 
 x = np.arange(-2, 2, 0.05)
 y = np.arange(-2, 2, 0.05)
@@ -29,9 +29,9 @@ for i in range(dim):
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.plot_surface(X, Y, z, cmap='viridis')
+ax.plot_surface(X, Y, z)
 ax.set_xlabel('x_1')
 ax.set_ylabel('x_2')
-ax.set_zlabel('Tol(x_1, x_2)')
+ax.set_zlabel('x_3')
 plt.savefig('tol.png', format='png')
 plt.show()

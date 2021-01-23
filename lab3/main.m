@@ -3,14 +3,16 @@ pkg load interval;
 addpath('./IntLinIncR2');
 addpath('./IntLinIncR3');
 
-A = [infsup(3, 8), infsup(6, 9);
-     infsup(2, 4), infsup(1, 5);
-     infsup(5, 9), infsup(4, 7)];
-b = [infsup(1.5, 5); infsup(0.8, 3); infsup(3, 6)];
+A = [infsup(5, 7), infsup(6, 10);
+     infsup(2, 4), infsup(1, 3);
+     infsup(6, 8), infsup(3, 5)];
+b = [infsup(2, 6); infsup(1, 5); infsup(3.4, 9)];
 
 % 2 x 3 matrix
 x = [0.5; 0.2; 0.3 ];
 b = [infsup(4, 7); infsup(3.3, 5.7)];
+infA = inf(A);
+supA = sup(A);
 infb = inf(b);
 supb = sup(b);
 [maxTol, argmaxTol] = tolsolvty(infA', supA', infb, supb);
