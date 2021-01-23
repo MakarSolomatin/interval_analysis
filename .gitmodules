@@ -1,0 +1,3 @@
+[submodule "lab4/tolsolvty"]
+	path = lab4/tolsolvty
+	url = https://github.com/MaximSmolskiy/tolsolvty.git
